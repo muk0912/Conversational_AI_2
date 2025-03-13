@@ -384,7 +384,7 @@ button:disabled {
 </style>
 
 <div class="participant-info">
-    <input type="text" id="participant-name" placeholder="Enter Your First Name">
+    <input type="text" id="participant-name" placeholder="Enter a Nick Name">
     <button id="start-btn">Start Evaluation</button>
 </div>
 
@@ -607,7 +607,7 @@ try {
         const firstName = document.getElementById('participant-name').value.trim();
         
         if (!firstName) {
-            alert("Please enter your first name to continue.");
+            alert("Please enter a Nick Name");
             return;
         }
         
