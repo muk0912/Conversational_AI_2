@@ -748,13 +748,17 @@ try {
     }
 
     function goToNextStep() {
-        saveCurrentRatings();
-        currentStep++;
-        if (currentStep < questionsAndResponses.length) {
-            showQuestionAndResponse(currentStep);
-            updateProgress();
-        }
+    saveCurrentRatings();
+    currentStep++;
+
+    // Scroll to the top of the page
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+
+    if (currentStep < questionsAndResponses.length) {
+        showQuestionAndResponse(currentStep);
+        updateProgress();
     }
+}
 
     function goToPreviousStep() {
         if (currentStep > 0) {
@@ -800,14 +804,24 @@ try {
     saveCurrentRatings();
 
     // Replace with your Google Web App URL
-    const googleWebAppUrl = 'https://script.google.com/macros/s/AKfycbzhZhawix3_DTuKsY7RyMEF8phL-02F5sx4GvsFvJ4edcy27fYjISXNzBGQVXvUIlACLA/exec';
+    const googleWebAppUrl = 'https://script.google.com/macros/s/AKfycbzRulblSSe_F6EkV8yv_VucUXSAFSDE40rCfO3BdT30F9ilU74LzKazXojumN5zzMQi/exec';
+
+    // Prepare the data to send
+    const dataToSend = {
+        participantId: participantId,
+        ratings: ratings.map(rating => ({
+            id: rating.id,
+            implementation: rating.implementation,
+            capability: rating.capability,
+            riskCalculation: rating.riskCalculation,
+            subjectMatterExperience: rating.subjectMatterExperience,
+            empathy: rating.empathy
+        }))
+    };
 
     fetch(googleWebAppUrl, {
         method: 'POST',
-        body: JSON.stringify({
-            participantId: participantId,
-            ratings: ratings
-        })
+        body: JSON.stringify(dataToSend)
     })
     .then(response => response.text())
     .then(result => {
